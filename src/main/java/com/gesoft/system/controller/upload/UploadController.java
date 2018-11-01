@@ -1,5 +1,6 @@
 package com.gesoft.system.controller.upload;
 
+import com.gesoft.system.common.InitParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,34 +13,42 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 
 
+
 @RestController
 @Slf4j
 public class UploadController {
 
 
-    @PostMapping("/upload")
-    String login(@RequestParam(name = "inputVal" ,required = false) String inputVal,@RequestParam("file") MultipartFile file) {
+    @PostMapping("/uploadImg")
+    String uploadImg(@RequestParam("upload") MultipartFile file, @RequestParam("CKEditorFuncNum")String CKEditorFuncNum) {
 
-        String contentType = file.getContentType();   //图片文件类型
         String fileName = file.getOriginalFilename();  //图片名字
-        log.info("表单输入框:"+inputVal);
-        log.info("文件类型:"+contentType);
-        log.info("文件名字:"+fileName);
-
         try {
 
-            String path  = ResourceUtils.getURL("classpath:templates").getPath();
+            String uploadsuffix = "/images/upload/";
+            File path = new File(ResourceUtils.getURL("classpath:").getPath());
+            if(!path.exists()) path = new File("");
+
+            //如果上传目录为/static/images/upload/，则可以如下获取：
+            File upload = new File(path.getAbsolutePath(),"static"+uploadsuffix);
+            if(!upload.exists()) upload.mkdirs();
+            //在开发测试模式时，得到的地址为：{项目跟目录}/target/static/images/upload/
+            //在打包成jar正式发布时，得到的地址为：{发布jar包目录}/static/images/upload/
 
             InputStream ins =  file.getInputStream();
-            File f=new File(path+"\\"+file.getOriginalFilename());
-            log.info("文件路径"+path+file.getOriginalFilename());
-            inputStreamToFile(ins, f);
-            log.info("上传成功");
-            return "{\"result\":\"true\"}";
+            File f=new File(upload+"\\"+file.getOriginalFilename());
+
+
+           String strpath = "/system"+uploadsuffix+file.getOriginalFilename();
+
+            System.out.println(strpath);
+           String ret = "<script type=\"text/javascript\">";
+           ret +="window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ",'" + strpath + "',''" + ")";
+           ret +="</script>";
+            return ret;
         } catch (IOException e) {
             e.printStackTrace();
-            log.info("上传失败");
-            return "{\"result\":\"false\"}";
+            return "上传失败";
         }
     }
 
@@ -70,7 +79,7 @@ public class UploadController {
 
 
     @PostMapping("/uploadPic")
-    String login(@RequestParam("file") MultipartFile file) {
+    String uploadPic(@RequestParam("file") MultipartFile file) {
 
         String fileName = file.getOriginalFilename();  //图片名字
         try {
