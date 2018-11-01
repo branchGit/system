@@ -8,13 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 import static com.gesoft.system.common.DataUtils.getUid;
 
-@Controller
+@RestController
 @RequestMapping("api/article")
 public class ApiArticleController {
 
@@ -24,7 +25,6 @@ public class ApiArticleController {
 
 
     @PostMapping("articleList")
-    @ResponseBody
     String apiArticleList(){
 
         List<ArticlePo> list = articleService.findAll();
@@ -34,7 +34,6 @@ public class ApiArticleController {
     }
 
     @PostMapping("article")
-    @ResponseBody
     String apiArticle(ArticlePo article){
 
         article = articleService.findArticle(article);
