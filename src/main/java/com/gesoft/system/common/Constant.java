@@ -6,4 +6,6 @@ public class Constant {
 
     public static final String TIMEOUT = "sessionTimeOut";
 
+    public static  String PROJECT_NAME = "";
+
 }

@@ -106,8 +106,8 @@
             success: function (data) {
                 var obj =  eval('(' + data + ')');;
                 if (obj.result =='true'){
-					$("#picPath").val("/system/"+obj.picUrl);
-					$("#showpic").attr("src","/system"+obj.picUrl);
+					$("#picPath").val(obj.picUrl);
+					$("#showpic").attr("src",obj.picUrl);
 				}
 
             }

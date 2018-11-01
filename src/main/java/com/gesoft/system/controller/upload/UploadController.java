@@ -1,9 +1,6 @@
 package com.gesoft.system.controller.upload;
 
-import com.gesoft.system.common.InitParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 
+import static com.gesoft.system.common.Constant.PROJECT_NAME;
 
 
 @RestController
@@ -39,9 +37,8 @@ public class UploadController {
             File f=new File(upload+"\\"+file.getOriginalFilename());
 
 
-           String strpath = "/system"+uploadsuffix+file.getOriginalFilename();
+           String strpath = PROJECT_NAME+uploadsuffix+file.getOriginalFilename();
 
-            System.out.println(strpath);
            String ret = "<script type=\"text/javascript\">";
            ret +="window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ",'" + strpath + "',''" + ")";
            ret +="</script>";
@@ -98,7 +95,7 @@ public class UploadController {
             log.info("文件路径"+upload+"\\"+file.getOriginalFilename());
             inputStreamToFile(ins, f);
             log.info("上传成功");
-            return "{\"result\":\"true\",\"picUrl\":\""+uploadsuffix+file.getOriginalFilename()+"\"}";
+            return "{\"result\":\"true\",\"picUrl\":\""+PROJECT_NAME+uploadsuffix+file.getOriginalFilename()+"\"}";
         } catch (IOException e) {
             e.printStackTrace();
             log.info("上传失败");

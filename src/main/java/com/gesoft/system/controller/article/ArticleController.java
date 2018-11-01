@@ -2,16 +2,12 @@ package com.gesoft.system.controller.article;
 
 import com.gesoft.system.controller.BaseController;
 import com.gesoft.system.po.article.ArticlePo;
-import com.gesoft.system.po.user.UserPo;
 import com.gesoft.system.service.article.IArticleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static com.gesoft.system.common.DataUtils.getUid;
