@@ -105,7 +105,7 @@ public class UploadController extends BaseController {
             log.info("文件路径"+upload+"\\"+file.getOriginalFilename());
             inputStreamToFile(ins, f);
             log.info("上传成功");
-            return "{\"result\":\"true\",\"picUrl\":\""+PROJECT_NAME+uploadsuffix+file.getOriginalFilename()+"\"}";
+            return "{\"result\":\"true\",\"picUrl\":\""+"http://"+getIpAddress()+":"+getPort()+PROJECT_NAME+uploadsuffix+file.getOriginalFilename()+"\"}";
         } catch (IOException e) {
             e.printStackTrace();
             log.info("上传失败");
