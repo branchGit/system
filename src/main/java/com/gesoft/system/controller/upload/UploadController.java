@@ -1,5 +1,6 @@
 package com.gesoft.system.controller.upload;
 
+import com.gesoft.system.controller.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 
 import static com.gesoft.system.common.Constant.PROJECT_NAME;
@@ -14,11 +16,18 @@ import static com.gesoft.system.common.Constant.PROJECT_NAME;
 
 @RestController
 @Slf4j
-public class UploadController {
+public class UploadController extends BaseController {
 
 
     @PostMapping("/uploadImg")
     String uploadImg(@RequestParam("upload") MultipartFile file, @RequestParam("CKEditorFuncNum")String CKEditorFuncNum) {
+
+
+        HttpServletRequest request  = getRequest();
+
+
+
+
 
         String fileName = file.getOriginalFilename();  //图片名字
         try {
@@ -38,6 +47,7 @@ public class UploadController {
 
 
            String strpath = PROJECT_NAME+uploadsuffix+file.getOriginalFilename();
+           strpath = "http://"+getIpAddress()+":"+getPort()+strpath;
 
            String ret = "<script type=\"text/javascript\">";
            ret +="window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ",'" + strpath + "',''" + ")";
